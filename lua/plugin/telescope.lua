@@ -59,6 +59,5 @@ map("n", "<leader>d", function()
 end, { desc = "List current buffer [d]iagnostics" })
 map("n", "<leader>D", tb.diagnostics, { desc = "List workspace [d]iagnostics" })
 
-
 pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "ui-select")
