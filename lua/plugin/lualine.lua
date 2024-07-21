@@ -24,7 +24,7 @@ lualine.setup {
 			},
 		},
 		lualine_y = { 'encoding', 'fileformat', 'filetype', 'progress' },
-		--lualine_z = { "os.date('%d %b')", "os.date('%H:%M')" }
+		-- lualine_z = { "os.date('%d %b')", "os.date('%H:%M')" }
 		lualine_z = { 'location' }
 	},
 }

@@ -19,7 +19,6 @@ require("lazy").setup({
 			"williamboman/mason-lspconfig.nvim",
 			"folke/neodev.nvim",
 			{ "jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-			{ "lvimuser/lsp-inlayhints.nvim",    branch = "anticonceal" },
 		},
 	},
 

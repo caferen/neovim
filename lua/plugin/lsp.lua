@@ -7,46 +7,53 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(client_id)
 		local bufnr = args.buf
 
-		require("lsp-inlayhints").on_attach(client, bufnr, false)
-		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#696969", bg = nil })
-
-		if not client.server_capabilities.documentFormattingProvider then
+		if not client then
 			return
 		end
 
-		if client.name == "tsserver" then
-			return
-		end
-
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			callback = function()
+		if client.server_capabilities.documentFormattingProvider and client.name ~= "tsserver" then
+			local format = function()
 				vim.lsp.buf.format({
 					async = false,
 					filter = function(c)
 						return c.id == client.id
 					end,
 				})
-			end,
-		})
+			end
+
+			vim.api.nvim_create_user_command("Format", format, {})
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				buffer = bufnr,
+				callback = format
+			})
+		end
+
+		if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+			vim.lsp.inlay_hint.enable(true)
+		end
+
+		if client.server_capabilities.documentHighlightProvider then
+			vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+				buffer = bufnr,
+				callback = vim.lsp.buf.clear_references
+			})
+		end
 	end,
 })
 
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 local completion = null_ls.builtins.completion
-local diagnostics = null_ls.builtins.diagnostics
 
 local spell = completion.spell
 spell.filetypes = { "text" }
 null_ls.setup({
 	sources = {
-		-- spell,
+		spell,
 		formatting.beautysh,
 		formatting.prettier,
 	},
 })
-
 
 local servers = {
 	lua_ls = {
@@ -98,5 +105,3 @@ mason_lspconfig.setup_handlers({
 		})
 	end,
 })
-
-require("lsp-inlayhints").setup()

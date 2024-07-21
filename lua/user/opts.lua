@@ -23,5 +23,3 @@ vim.o.wrap = false
 vim.o.scrolloff = 8
 vim.o.whichwrap = "bs<>[]hl"
 vim.o.clipboard = 'unnamedplus'
-vim.o.textwidth = 80
-vim.o.formatoptions = vim.o.formatoptions .. 't'

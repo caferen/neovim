@@ -24,10 +24,16 @@ require('base16-colorscheme').setup(
 	}
 )
 
-local variable = require('base16-colorscheme').colors.base0C
+local light = require('base16-colorscheme').colors.base0C
+local dark = require('base16-colorscheme').colors.base00
 
-vim.api.nvim_set_hl(0, "@variable", { fg = variable })
-vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = variable })
+vim.api.nvim_set_hl(0, "@variable", { fg = light })
+vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = light })
+
+vim.api.nvim_set_hl(0, "LspInlayHint", { fg = '#696969', bg = nil })
+vim.api.nvim_set_hl(0, "LspReferenceText", { fg = dark, bg = light })
+vim.api.nvim_set_hl(0, "LspReferenceRead", { fg = dark, bg = light })
+vim.api.nvim_set_hl(0, "LspReferenceWrite", { fg = dark, bg = light })
 
 vim.api.nvim_set_hl(0, 'Normal', { guibd = nil })
 vim.api.nvim_set_hl(0, 'SignColumn', { guibd = nil })
